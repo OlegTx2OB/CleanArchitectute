@@ -7,17 +7,23 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.example.cleanarchitecture.R
-import com.example.cleanarchitecture.presentation.intent.MainEvent
-import com.example.cleanarchitecture.presentation.viewmodel.MainViewModel
+import com.example.cleanarchitecture.presentation.presenter.MainView
+import com.example.cleanarchitecture.presentation.viewmodel.MainPresenterImpl
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainView {
 
-    private val mVm: MainViewModel by viewModels()
+    val dataTextView by lazy {findViewById<TextView>(R.id.dataTextView)}
+    val dataEditView by lazy {findViewById<EditText>(R.id.dataEditText)}
+    val sendButton by lazy {findViewById<Button>(R.id.sendButton)}
+    val receiveButton by lazy {findViewById<Button>(R.id.receiveButton)}
+
+    private val mVm: MainPresenterImpl by viewModels()
+    override fun showResult(text: String) {
+        dataTextView.text = text
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,24 +31,15 @@ class MainActivity : AppCompatActivity() {
 
         Log.e("AAA", "Activity created")
 
-        val dataTextView = findViewById<TextView>(R.id.dataTextView)
-        val dataEditView = findViewById<EditText>(R.id.dataEditText)
-        val sendButton = findViewById<Button>(R.id.sendButton)
-        val receiveButton = findViewById<Button>(R.id.receiveButton)
 
-        lifecycleScope.launch { //launchWhenStarted
-            mVm.sfState.collect {
-                dataTextView.text = "${it.saveResult} ${it.firstName}"
-            }
-        }
 
         sendButton.setOnClickListener {
             val text = dataEditView.text.toString()
-            mVm.send(MainEvent.SaveEvent(text))
+            mVm.save(text)
         }
 
         receiveButton.setOnClickListener {
-            mVm.send(MainEvent.LoadEvent())
+            mVm.load()
         }
     }
 }
