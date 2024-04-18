@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -42,13 +43,13 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
 
-    implementation("androidx.fragment:fragment-ktx:1.6.2") //for by viewModels()
+
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
-//Dagger
-    implementation("com.google.dagger:dagger:2.51.1")
-    kapt("com.google.dagger:dagger-compiler:2.51.1")
-    implementation("javax.inject:javax.inject:1")
+//Hilt
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    kapt("com.google.dagger:hilt-compiler:2.46.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.2") //for by viewModels()
 
 
     implementation(libs.androidx.core.ktx)

@@ -5,31 +5,24 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.cleanarchitecture.R
-import com.example.cleanarchitecture.app.App
 import com.example.cleanarchitecture.presentation.viewmodel.MainViewModel
-import com.example.cleanarchitecture.presentation.viewmodelfactory.MainViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var mVmFactory: MainViewModelFactory
-    private lateinit var mVm: MainViewModel
+    private val mVm: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        (applicationContext as App).appComponent.inject(this)
-
         Log.e("AAA", "Activity created")
-
-        mVm = ViewModelProvider(this, mVmFactory).get(MainViewModel::class.java)
 
         val dataTextView = findViewById<TextView>(R.id.dataTextView)
         val dataEditView = findViewById<EditText>(R.id.dataEditText)

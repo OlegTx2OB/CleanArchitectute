@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import com.example.cleanarchitecture.domain.model.User
 import com.example.cleanarchitecture.domain.usecase.GetUserUseCase
 import com.example.cleanarchitecture.domain.usecase.SaveUserUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
     private val saveUserUseCase: SaveUserUseCase
 ) : ViewModel() {
