@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.cleanarchitecture.R
+import com.example.cleanarchitecture.presentation.intent.MainEvent
 import com.example.cleanarchitecture.presentation.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,18 +31,18 @@ class MainActivity : AppCompatActivity() {
         val receiveButton = findViewById<Button>(R.id.receiveButton)
 
         lifecycleScope.launch { //launchWhenStarted
-            mVm.sfText.collect {
-                dataTextView.text = it
+            mVm.sfState.collect {
+                dataTextView.text = "${it.saveResult} ${it.firstName}"
             }
         }
 
         sendButton.setOnClickListener {
             val text = dataEditView.text.toString()
-            mVm.save(text)
+            mVm.send(MainEvent.SaveEvent(text))
         }
 
         receiveButton.setOnClickListener {
-            mVm.load()
+            mVm.send(MainEvent.LoadEvent())
         }
     }
 }
