@@ -1,17 +1,22 @@
 package com.example.cleanarchitecture.di
 
+import com.example.cleanarchitecture.domain.repository.UserRepository
 import com.example.cleanarchitecture.domain.usecase.GetUserUseCase
 import com.example.cleanarchitecture.domain.usecase.SaveUserUseCase
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
 
-val domainModuleDi = module {
+@Module
+class DomainModuleDi {
 
-    factory<GetUserUseCase> {
-        GetUserUseCase(userRepository = get())
+    @Provides
+    fun provideGetUserUseCase(userRepository: UserRepository): GetUserUseCase {
+        return GetUserUseCase(userRepository)
     }
 
-    factory<SaveUserUseCase> {
-        SaveUserUseCase(userRepository = get())
+    @Provides
+    fun provideSaveUserUseCase(userRepository: UserRepository): SaveUserUseCase {
+        return SaveUserUseCase(userRepository)
     }
 
 }

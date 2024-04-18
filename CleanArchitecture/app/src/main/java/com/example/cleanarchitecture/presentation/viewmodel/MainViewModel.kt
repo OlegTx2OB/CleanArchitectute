@@ -1,4 +1,4 @@
-package com.example.cleanarchitecture.presentation
+package com.example.cleanarchitecture.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

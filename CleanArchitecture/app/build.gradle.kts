@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+
+    id("kotlin-kapt")
 }
 
 android {
@@ -43,10 +45,11 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.2") //for by viewModels()
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
 
-//Koin
-    implementation("io.insert-koin:koin-core:3.5.6")
-    implementation("io.insert-koin:koin-android:3.5.6")
-    testImplementation("io.insert-koin:koin-test:3.5.6")
+//Dagger
+    implementation("com.google.dagger:dagger:2.51.1")
+    kapt("com.google.dagger:dagger-compiler:2.51.1")
+    implementation("javax.inject:javax.inject:1")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

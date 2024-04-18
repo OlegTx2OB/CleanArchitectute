@@ -1,19 +1,27 @@
 package com.example.cleanarchitecture.di
 
+import android.content.Context
 import com.example.cleanarchitecture.data.repository.UserRepositoryImpl
 import com.example.cleanarchitecture.data.storage.UserStorage
 import com.example.cleanarchitecture.data.storage.sharedPrefs.SharedPrefUserStorageImpl
 import com.example.cleanarchitecture.domain.repository.UserRepository
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
-val dataModuleDi = module {
+@Module
+class DataModuleDi {
 
-    single<UserStorage> {
-        SharedPrefUserStorageImpl(context = get())
+    @Singleton
+    @Provides
+    fun provideUserStorage(context: Context): UserStorage {
+        return SharedPrefUserStorageImpl(context)
     }
 
-    single<UserRepository> {
-        UserRepositoryImpl(userStorage = get())
+    @Singleton
+    @Provides
+    fun provideUserRepository(userStorage: UserStorage): UserRepository {
+        return UserRepositoryImpl(userStorage)
     }
 
 }
